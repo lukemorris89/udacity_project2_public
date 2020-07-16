@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Popular Movies</string>
     <string name="api_key">c73a85c78fe4c2e9c721a9b4687df567</string>
+    <string name="plot_synopsis">Plot Synopsis</string>
+    <string name="vote_average">Vote Average</string>
+    <string name="release_date">Release Date</string>
+    <string name="movie_poster_description">Movie Poster</string>
+    <string name="no_network_connection">No internet connection.</string>
 </resources>

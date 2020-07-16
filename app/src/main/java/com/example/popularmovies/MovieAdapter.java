@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.popularmovies.model.Movie;
+import com.example.popularmovies.model.MoviePoster;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -17,13 +17,11 @@ import java.util.ArrayList;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
     private final String ROOT_POSTER_URL = "http://image.tmdb.org/t/p/w185/";
 
-    private ArrayList<Movie> mMovieData;
+    private ArrayList<MoviePoster> mMoviePosters;
     private MovieAdapterOnClickHandler mClickHandler;
-    private ImageView mPosterView;
-    private Context mContext;
 
     public interface MovieAdapterOnClickHandler {
-        void onClick(int i);
+        void onClick(int id);
     }
 
     public MovieAdapter(MovieAdapterOnClickHandler clickHandler) {
@@ -41,24 +39,20 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     @Override
     public void onBindViewHolder(MovieAdapterViewHolder holder, int position) {
-        mPosterView = (ImageView) holder.itemView.findViewById(R.id.poster_view_main);
-        mPosterView.setImageResource(R.drawable.ic_launcher_background);
-        String posterUrl = ROOT_POSTER_URL + mMovieData.get(position).getPosterPath();
-        Picasso.get().load(posterUrl).into(mPosterView);
-
+        ImageView posterView = (ImageView) holder.itemView.findViewById(R.id.poster_view_main);
+        String posterUrl = ROOT_POSTER_URL + mMoviePosters.get(position).getPosterPath();
+        Picasso.get().load(posterUrl).into(posterView);
     }
 
     @Override
     public int getItemCount() {
-        if (mMovieData == null) {
+        if (mMoviePosters == null) {
             return 0;
         }
-        return mMovieData.size();
+        return mMoviePosters.size();
     }
 
     public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-//        public final ImageView mPosterView;
-
         public MovieAdapterViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
@@ -67,19 +61,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            int id = mMovieData.get(position).getMovieId();
-            mClickHandler.onClick(id);
+            Log.v("CLICK POS: ", "" + position);
+
+            int movieId = mMoviePosters.get(position).getMovieId();
+            Log.v("CLICK ID: ", "" + movieId);
+            mClickHandler.onClick(movieId);
         }
     }
 
-
-
-
-
-
-
-    public void setMovieData(ArrayList<Movie> movies) {
-        mMovieData = movies;
+    public void setMovieData(ArrayList<MoviePoster> movies) {
+        mMoviePosters = movies;
         notifyDataSetChanged();
     }
 }

@@ -1,52 +1,45 @@
 package com.example.popularmovies;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.AsyncQueryHandler;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.popularmovies.model.Movie;
+import com.example.popularmovies.model.MoviePoster;
 import com.example.popularmovies.utils.JsonUtils;
 import com.example.popularmovies.utils.NetworkUtils;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
-    public static final String ROOT_POPULAR_URL = "https://api.themoviedb.org/3/movie/popular?api_key=";
-    private static final String ROOT_MOVIE_DETAILS_URL = "https://api.themoviedb.org/3/movie/";
-    private final String API_KEY = "c73a85c78fe4c2e9c721a9b4687df567";
+
+    private String apiKey;
 
     private RecyclerView mRecyclerView;
-    private GridLayoutManager mLayoutManager;
     private MovieAdapter mMovieAdapter;
     private ProgressBar mLoadingBar;
     private TextView mErrorTextView;
-    private ArrayList<Movie> mMovieList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        apiKey = getString(R.string.api_key);
+
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_main);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
 
-        mLayoutManager = new GridLayoutManager(this, 2);
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
         mMovieAdapter = new MovieAdapter(this);
@@ -57,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         if (!NetworkUtils.isOnline(this)) {
             mLoadingBar.setVisibility(View.INVISIBLE);
-            mErrorTextView.setText("No internet connection.");
+            mErrorTextView.setText(getText(R.string.no_network_connection));
         }
         else {
             loadMovieData();
@@ -66,12 +59,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     public void onClick(int id) {
-        Intent intent = new Intent(this, MovieDetailsActivity.class);
-        startActivity(intent);
-
+        Context context = this;
+        Intent intentViewDetails = new Intent(context, MovieDetailsActivity.class);
+        intentViewDetails.putExtra("id", id);
+        startActivity(intentViewDetails);
     }
 
-    public class FetchMovieDataTask extends AsyncTask<String, Void, ArrayList<Movie>> {
+    public class FetchMoviePostersTask extends AsyncTask<String, Void, ArrayList<MoviePoster>> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -79,13 +73,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
 
         @Override
-        protected ArrayList<Movie> doInBackground(String... string) {
-            mMovieList = JsonUtils.parseMovieResults(ROOT_POPULAR_URL + API_KEY);
-            return mMovieList;
+        protected ArrayList<MoviePoster> doInBackground(String... string) {
+            String ROOT_POPULAR_URL = "https://api.themoviedb.org/3/movie/popular?api_key=";
+            return JsonUtils.parseMoviePosters(ROOT_POPULAR_URL + apiKey);
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Movie> movies) {
+        protected void onPostExecute(ArrayList<MoviePoster> movies) {
             mLoadingBar.setVisibility(View.INVISIBLE);
             if (movies != null) {
                 showMoviePostersView();
@@ -99,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private void loadMovieData() {
         showMoviePostersView();
-        new FetchMovieDataTask().execute();
+        new FetchMoviePostersTask().execute();
     }
 
     private void showMoviePostersView() {
@@ -111,5 +105,4 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRecyclerView.setVisibility(View.INVISIBLE);
         mErrorTextView.setVisibility(View.VISIBLE);
     }
-
 }

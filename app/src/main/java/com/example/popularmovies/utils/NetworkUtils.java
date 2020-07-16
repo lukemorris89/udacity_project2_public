@@ -4,11 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
-
-import com.example.popularmovies.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,8 +22,6 @@ import java.nio.charset.StandardCharsets;
 public class NetworkUtils {
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
-
-
     public static URL buildUrl(String stringURL) {
         URL url = null;
         try {
@@ -37,21 +32,6 @@ public class NetworkUtils {
         }
         return url;
     }
-
-//    public static URL buildUrl(int id) {
-//        String baseUrl = ROOT_MOVIE_DETAILS_URL + id;
-//        Uri builtUri = Uri.parse(baseUrl).buildUpon()
-//                .appendQueryParameter("api_key", API_KEY)
-//                .build();
-//        URL url = null;
-//        try {
-//            url = new URL(builtUri.toString());
-//        }
-//        catch (MalformedURLException e) {
-//            Log.e(LOG_TAG, "URL build unsuccessful: ", e);
-//        }
-//        return url;
-//    }
 
     public static JSONObject makeHttpRequest(URL url) throws IOException {
         String jsonResponseString = "";

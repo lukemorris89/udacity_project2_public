@@ -6,20 +6,16 @@ public class Movie {
     private String mOverview;
     private String mPosterPath;
     private double mVoteAverage;
-    private double mPopularity;
-    private int mId;
 
     public Movie() {
     }
 
-    public Movie(String title, String releaseDate, String overview, String posterPath, double voteAverage, double popularity, int id) {
+    public Movie(String title, String releaseDate, String overview, String posterPath, double voteAverage) {
         mTitle = title;
         mReleaseDate = releaseDate;
         mOverview = overview;
         mPosterPath = posterPath;
         mVoteAverage = voteAverage;
-        mPopularity = popularity;
-        mId = id;
     }
 
     public String getTitle() {
@@ -40,13 +36,5 @@ public class Movie {
 
     public double getVoteAverage() {
         return mVoteAverage;
-    }
-
-    public double getPopularity() {
-        return mPopularity;
-    }
-
-    public int getMovieId() {
-        return mId;
     }
 }
