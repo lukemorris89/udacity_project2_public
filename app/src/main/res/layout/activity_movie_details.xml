@@ -20,19 +20,21 @@
         android:layout_width="match_parent"
         android:id="@+id/movie_details"
         android:orientation="vertical"
-        android:background="@android:color/black"
         android:layout_alignParentBottom="true">
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/movie_detail_title"
+            style="@style/MovieDetailsTitle"/>
         <ScrollView
             android:layout_height="match_parent"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:padding="16dp"
+            android:background="@color/colorPrimary">
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:id="@+id/movie_detail_title"/>
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"

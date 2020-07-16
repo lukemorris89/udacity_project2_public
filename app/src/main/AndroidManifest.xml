@@ -3,7 +3,7 @@
     package="com.example.popularmovies">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,8 +13,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MovieDetailsActivity"
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings"
             android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".MovieDetailsActivity"
+            android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -10,7 +10,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class JsonUtils {
     public static final String LOG_TAG = JsonUtils.class.getSimpleName();
@@ -19,11 +22,11 @@ public class JsonUtils {
         Movie movie = null;
         try {
             URL url = NetworkUtils.buildUrl(stringUrl);
-            Log.v("AAAAHHHHHHHHHH", url.toString());
             JSONObject root = NetworkUtils.makeHttpRequest(url);
 
             String title = root.optString("original_title");
-            String releaseDate = root.optString("release_date");
+            String releaseDateRaw = root.optString("release_date");
+            String releaseDate = dateFormat(releaseDateRaw);
             String overview = root.optString("overview");
             String posterPath = root.optString("poster_path");
             double voteAverage = root.optDouble("vote_average");
@@ -54,6 +57,18 @@ public class JsonUtils {
             Log.e(LOG_TAG, "Error retrieving movies: ", e);
         }
         return searchResultMovies;
+    }
+
+    private static String dateFormat(String dateString) {
+        String formattedDate = "";
+        try {
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+            return new SimpleDateFormat("dd MMM yyyy").format(date);
+        }
+        catch (ParseException e) {
+            Log.e(LOG_TAG, "Unable to parse date: ", e);
+        }
+        return formattedDate;
     }
 }
 

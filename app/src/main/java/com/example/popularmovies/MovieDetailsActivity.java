@@ -44,7 +44,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         int screenHeight = getResources().getDisplayMetrics().heightPixels;
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) movieDetailsLinearLayout.getLayoutParams();
-        params.height = (int) Math.ceil(screenHeight * 0.3);
+        params.height = (int) Math.ceil(screenHeight * 0.4);
 
         mPosterImageView = (ImageView) findViewById(R.id.movie_detail_image);
         mTitleTextView = (TextView) findViewById(R.id.movie_detail_title);
