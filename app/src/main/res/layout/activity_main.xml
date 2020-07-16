@@ -13,6 +13,11 @@
         android:layout_height="48dp"
         android:layout_width="48dp"
         android:id="@+id/loading_bar"
+        android:layout_gravity="center"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="invisible"/>
+        android:id="@+id/tv_error_empty"
+        android:text="AHHHHHHHHHHHHHHHHHHHHHH"/>
 </FrameLayout>

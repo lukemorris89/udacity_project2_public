@@ -1,6 +1,7 @@
 package com.example.popularmovies;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,33 +9,25 @@ import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.popularmovies.model.Movie;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
-    private String[] mMovieData;
-    private final MovieAdapterOnClickHandler mClickHandler;
+    private final String ROOT_POSTER_URL = "http://image.tmdb.org/t/p/w185/";
+
+    private ArrayList<Movie> mMovieData;
+    private MovieAdapterOnClickHandler mClickHandler;
+    private ImageView mPosterView;
+    private Context mContext;
 
     public interface MovieAdapterOnClickHandler {
-        void onClick(String movieDetails);
+        void onClick(int i);
     }
 
     public MovieAdapter(MovieAdapterOnClickHandler clickHandler) {
         mClickHandler = clickHandler;
-    }
-
-    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public final ImageView mPosterView;
-
-        public MovieAdapterViewHolder(View view) {
-            super(view);
-            mPosterView = (ImageView) view.findViewById(R.id.poster_view_main);
-            view.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View view) {
-            int position = getAdapterPosition();
-            String movieJSON = mMovieData[position];
-            mClickHandler.onClick(movieJSON);
-        }
     }
 
     @Override
@@ -48,8 +41,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     @Override
     public void onBindViewHolder(MovieAdapterViewHolder holder, int position) {
-        String mMovieJSONString = mMovieData[position];
-        // TO DO parse JSON to get image and show using Picasso
+        mPosterView = (ImageView) holder.itemView.findViewById(R.id.poster_view_main);
+        mPosterView.setImageResource(R.drawable.ic_launcher_background);
+        String posterUrl = ROOT_POSTER_URL + mMovieData.get(position).getPosterPath();
+        Picasso.get().load(posterUrl).into(mPosterView);
+
     }
 
     @Override
@@ -57,11 +53,33 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         if (mMovieData == null) {
             return 0;
         }
-        return mMovieData.length;
+        return mMovieData.size();
     }
 
-    public void setMovieData(String[] movieData) {
-        mMovieData = movieData;
+    public class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+//        public final ImageView mPosterView;
+
+        public MovieAdapterViewHolder(View view) {
+            super(view);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            int id = mMovieData.get(position).getMovieId();
+            mClickHandler.onClick(id);
+        }
+    }
+
+
+
+
+
+
+
+    public void setMovieData(ArrayList<Movie> movies) {
+        mMovieData = movies;
         notifyDataSetChanged();
     }
 }
