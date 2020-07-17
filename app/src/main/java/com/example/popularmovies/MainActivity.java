@@ -104,8 +104,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     private void loadMovieData() {
-        showMoviePostersView();
-        new FetchMoviePostersTask().execute();
+        if (apiKey.equals("")) {
+            showErrorMessage();
+            mLoadingBar.setVisibility(View.INVISIBLE);
+            mErrorTextView.setText("API Key missing. Please refer to README.md");
+        }
+        else {
+            showMoviePostersView();
+            new FetchMoviePostersTask().execute();
+        }
     }
 
     private void showMoviePostersView() {
