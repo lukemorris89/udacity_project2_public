@@ -3,9 +3,6 @@ package com.example.popularmovies;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,7 +15,6 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
-    private final String ROOT_POSTER_URL = "http://image.tmdb.org/t/p/w185/";
 
     private ArrayList<MoviePoster> mMoviePosters;
     private MovieAdapterOnClickHandler mClickHandler;
@@ -43,7 +39,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
     @Override
     public void onBindViewHolder(MovieAdapterViewHolder holder, int position) {
         ImageView posterView = (ImageView) holder.itemView.findViewById(R.id.poster_view_main);
-        String posterUrl = ROOT_POSTER_URL + mMoviePosters.get(position).getPosterPath();
+        String rootPosterUrl = "http://image.tmdb.org/t/p/w185/";
+        String posterUrl = rootPosterUrl + mMoviePosters.get(position).getPosterPath();
         Picasso.get().load(posterUrl).into(posterView);
     }
 

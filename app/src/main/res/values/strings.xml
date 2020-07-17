@@ -1,6 +1,10 @@
 <resources>
+
     <string name="app_name">Popular Movies</string>
-    <string name="api_key">c73a85c78fe4c2e9c721a9b4687df567</string>
+
+<!--    YOUR OWN API KEY GOES HERE - SEE README FOR INSTRUCTIONS-->
+    <string name="api_key"></string>
+
     <string name="plot_synopsis">Plot Synopsis</string>
     <string name="vote_average">Vote Average</string>
     <string name="release_date">Release Date</string>
@@ -17,4 +21,5 @@
 
     <string name="settings_order_by_top_rated_label">Top Rated</string>
     <string name="settings_order_by_top_rated_value" translatable="false">top_rated</string>
+    <string name="image_of_movie">Image of Movie</string>
 </resources>

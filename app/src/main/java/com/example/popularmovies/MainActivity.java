@@ -1,7 +1,6 @@
 package com.example.popularmovies;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,7 +10,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,7 +18,6 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.popularmovies.model.Movie;
 import com.example.popularmovies.model.MoviePoster;
 import com.example.popularmovies.utils.JsonUtils;
 import com.example.popularmovies.utils.NetworkUtils;
@@ -29,7 +27,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
     private static final String ROOT_MAIN_URL = "https://api.themoviedb.org/3/movie/";
     private String apiKey;
-    private String mUrlString;
     private String mOrderBy;
 
     private RecyclerView mRecyclerView;
@@ -90,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                     .appendQueryParameter("api_key", apiKey)
                     .build()
                     .toString();
-            Log.v("AAAAAAAHHHHHHH", mUrlString);
             return JsonUtils.parseMoviePosters(mUrlString);
         }
 

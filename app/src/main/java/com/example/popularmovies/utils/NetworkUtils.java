@@ -22,6 +22,9 @@ import java.nio.charset.StandardCharsets;
 public class NetworkUtils {
     private static final String LOG_TAG = NetworkUtils.class.getSimpleName();
 
+    private NetworkUtils() {
+    }
+
     public static URL buildUrl(String stringURL) {
         URL url = null;
         try {
@@ -33,8 +36,8 @@ public class NetworkUtils {
         return url;
     }
 
+    // Make a GET request to the supplied URL and return the retrieved JSON
     public static JSONObject makeHttpRequest(URL url) throws IOException {
-        String jsonResponseString = "";
         JSONObject jsonResponse = null;
 
         HttpURLConnection urlConnection = null;
@@ -49,7 +52,7 @@ public class NetworkUtils {
 
             if (urlConnection.getResponseCode() == 200) {
                 inputStream = urlConnection.getInputStream();
-                jsonResponseString = readFromStream(inputStream);
+                String jsonResponseString = readFromStream(inputStream);
                 jsonResponse = new JSONObject(jsonResponseString);
             }
             else {
@@ -87,6 +90,7 @@ public class NetworkUtils {
         return output.toString();
     }
 
+    // Checks if user has an internet connection to be able to load data
     public static boolean isOnline(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
